@@ -1,0 +1,18 @@
+.header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cart-button {
+    border-radius: 5px;
+}
+
+.goods-list {
+    display: flex;
+    justify-content: space-around;
+}
+
+.goods-item {
+    padding: 25px;
+    border: 1px solid black;
+}
