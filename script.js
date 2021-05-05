@@ -1,22 +1,49 @@
-const goods = [
-    { title: 'Shirt', price: 150 },
-    { title: 'Socks', price: 50 },
-    { title: 'Jacket', price: 350 },
-    { title: 'Shoes', price: 250 },
-];
+const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
-const renderGoodsItem = (title = 'Пусто', price = '0') =>
-    `<div class="goods-item">
-        <h3>${title}</h3>
-        <p>${price}</p>
-        <button>Добавить</button>
-    </div>`;
+const app = new Vue({
+    el: '#app',
+    data: () => ({
+        goods: [],
+        filteredGoods: [],
+        searchLine: '',
+        // isVisibleCart: false,
+        basket: []
+    }),
+    mounted() {
+        this.makeGETRequest(`${API_URL}/catalogData.json`, (goods) => {
+            this.goods = JSON.parse(goods);
+            this.filteredGoods = JSON.parse(goods);
+            console
+        });
+    },
+    methods: {
+        makeGETRequest(url, callback) {
+            var xhr;
 
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else if (window.ActiveXObject) {
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
 
-const renderGoodsList = (list = []) => {
-    let goodsList = list.map(({ title, price }) => renderGoodsItem(title, price));
-    document.querySelector('.goods-list').innerHTML = goodsList.join('');
-}
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    callback(xhr.responseText);
+                }
+            }
 
+            xhr.open('GET', url, true);
+            xhr.send();
+        },
+        // handleCart() {
+        //     this.isVisibleCart = !this.isVisibleCart;
+        // },
 
-renderGoodsList(goods);
+        filterGoods() {
+            const regexp = new RegExp(this.searchLine, 'i');
+            this.filteredGoods = this.goods.filter(good => regexp.test(good.product_name));
+            console.log("click");
+        }
+    },
+
+});

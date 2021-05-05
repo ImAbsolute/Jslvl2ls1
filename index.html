@@ -10,15 +10,30 @@
 </head>
 
 <body>
-    <header class="header">
-        <button class="cart-button" type="button">Корзина</button>
-    </header>
+    <div id="app">
+        <header>
+            <!-- <input v-model="searchLine" type="text" class="goods-search" />
+            <button class="search-button" type="button" @click="filterGoods">Искать</button> -->
+            <search v-model="searchLine" @filter-goods="filterGoods"></search>
+            <basket></basket>
+            <!-- <button class="cart-button" type="button" @click="handleCart">Корзина</button> -->
+        </header>
+        <goods-list :goods="filteredGoods"></goods-list>
 
-    <main>
-        <div class="goods-list"></div>
-    </main>
+        <!-- <basket></basket> -->
+        <!-- <div class="basket" v-show='isVisibleCart'>
+            <p>Корзина</p>
+            <div class="wrapper" v-for="good in basket">
+                <p>{{good.product_name}}</p>
+                <p>{{ good.price }}</p>
+            </div>
+        </div> -->
 
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <script src="script.js"></script>
+    <script src="components.js"></script>
 </body>
 
 </html>
